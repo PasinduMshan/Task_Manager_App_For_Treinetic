@@ -1,7 +1,9 @@
 package lk.ijse.task_manager_app_backend.util;
 
+import lk.ijse.task_manager_app_backend.dto.impl.SignUpDTO;
 import lk.ijse.task_manager_app_backend.dto.impl.TaskDTO;
 import lk.ijse.task_manager_app_backend.entity.Task;
+import lk.ijse.task_manager_app_backend.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,12 @@ public class Mapping {
     }
     public List<TaskDTO> toTaskDTOList(List<Task> taskList) {
         return modelMapper.map(taskList, new TypeToken<List<TaskDTO>>() {}.getType());
+    }
+
+    public User toUserEntity(SignUpDTO signUpDTO) {
+        return modelMapper.map(signUpDTO, User.class);
+    }
+    public SignUpDTO toSignUpDTO(User user) {
+        return modelMapper.map(user, SignUpDTO.class);
     }
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.task_manager_app_backend.service.AuthenticationService;
 import lk.ijse.task_manager_app_backend.service.JWTService;
+import lk.ijse.task_manager_app_backend.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JWTConfigFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(
@@ -40,7 +41,7 @@ public class JWTConfigFilter extends OncePerRequestFilter {
         username = jwtService.extractUserName(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.authenticationService.userDetailsService().loadUserByUsername(username);
+            UserDetails userDetails = this.userService.userDetailsService().loadUserByUsername(username);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

@@ -1,6 +1,7 @@
 package lk.ijse.task_manager_app_backend.config;
 
 import lk.ijse.task_manager_app_backend.service.AuthenticationService;
+import lk.ijse.task_manager_app_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +26,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JWTConfigFilter jwtConfigFilter;
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
         configuration.addAllowedOrigin("*");
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -56,7 +57,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider dap = new DaoAuthenticationProvider();
-        dap.setUserDetailsService(authenticationService.userDetailsService());
+        dap.setUserDetailsService(userService.userDetailsService());
         dap.setPasswordEncoder(passwordEncoder());
         return dap;
     }
