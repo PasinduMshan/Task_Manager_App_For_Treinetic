@@ -39,4 +39,14 @@ public class TaskController {
     public TaskStatus getTaskById(@PathVariable("id") Long id) {
         return taskService.getTaskById(id);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteTaskById(@PathVariable("id") Long id) {
+        try {
+            taskService.deleteTask(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

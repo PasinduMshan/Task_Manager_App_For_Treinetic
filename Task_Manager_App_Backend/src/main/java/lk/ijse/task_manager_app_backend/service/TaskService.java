@@ -10,4 +10,5 @@ public interface TaskService {
     void saveTask(TaskDTO taskDTO) throws DataPersistException;
     List<TaskDTO> getAllTasks();
     TaskStatus getTaskById(Long taskId);
+    void deleteTask(Long taskId);
 }

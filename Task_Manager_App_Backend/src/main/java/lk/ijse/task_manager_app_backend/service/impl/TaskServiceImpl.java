@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,4 +46,13 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    @Override
+    public void deleteTask(Long taskId) {
+        Optional<Task> task = taskDAO.findById(taskId);
+        if (!task.isPresent()) {
+            throw new RuntimeException("Task not found!");
+        } else {
+            taskDAO.deleteById(taskId);
+        }
+    }
 }
