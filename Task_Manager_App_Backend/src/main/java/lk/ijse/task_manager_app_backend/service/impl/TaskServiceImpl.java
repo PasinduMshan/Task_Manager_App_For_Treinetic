@@ -5,6 +5,7 @@ import lk.ijse.task_manager_app_backend.dto.TaskStatus;
 import lk.ijse.task_manager_app_backend.dto.impl.TaskDTO;
 import lk.ijse.task_manager_app_backend.entity.Task;
 import lk.ijse.task_manager_app_backend.exception.DataPersistException;
+import lk.ijse.task_manager_app_backend.exception.TaskNotFoundException;
 import lk.ijse.task_manager_app_backend.service.TaskService;
 import lk.ijse.task_manager_app_backend.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
             Task taskData = taskDAO.getReferenceById(taskId);
             return mapping.toTaskDTO(taskData);
         } else {
-            throw new RuntimeException("Task not found!");
+            throw new TaskNotFoundException("Task not found!");
         }
     }
 
@@ -50,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long taskId) {
         Optional<Task> task = taskDAO.findById(taskId);
         if (!task.isPresent()) {
-            throw new RuntimeException("Task not found!");
+            throw new TaskNotFoundException("Task with id " + taskId + " not Found");
         } else {
             taskDAO.deleteById(taskId);
         }
@@ -60,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
     public void updateTask(Long taskId, TaskDTO taskDTO) {
         Optional<Task> task = taskDAO.findById(taskId);
         if (!task.isPresent()) {
-            throw new RuntimeException("Task not found!");
+            throw new TaskNotFoundException("Task not found!");
         } else {
             task.get().setTitle(taskDTO.getTitle());
             task.get().setDescription(taskDTO.getDescription());
