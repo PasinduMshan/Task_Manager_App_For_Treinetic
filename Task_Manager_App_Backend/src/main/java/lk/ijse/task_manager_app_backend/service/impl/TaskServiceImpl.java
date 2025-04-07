@@ -55,4 +55,17 @@ public class TaskServiceImpl implements TaskService {
             taskDAO.deleteById(taskId);
         }
     }
+
+    @Override
+    public void updateTask(Long taskId, TaskDTO taskDTO) {
+        Optional<Task> task = taskDAO.findById(taskId);
+        if (!task.isPresent()) {
+            throw new RuntimeException("Task not found!");
+        } else {
+            task.get().setTitle(taskDTO.getTitle());
+            task.get().setDescription(taskDTO.getDescription());
+            task.get().setStatus(taskDTO.getStatus());
+            task.get().setCreatedAt(taskDTO.getCreatedAt());
+        }
+    }
 }
