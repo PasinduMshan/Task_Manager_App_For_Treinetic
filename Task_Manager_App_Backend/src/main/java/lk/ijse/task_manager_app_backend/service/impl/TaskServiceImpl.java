@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class TaskServiceImpl implements TaskService {
@@ -24,5 +26,11 @@ public class TaskServiceImpl implements TaskService {
         if (savedTask == null) {
             throw new DataPersistException("Task not saved!");
         }
+    }
+
+    @Override
+    public List<TaskDTO> getAllTasks() {
+        List<Task> taskList = taskDAO.findAll();
+        return mapping.toTaskDTOList(taskList);
     }
 }
