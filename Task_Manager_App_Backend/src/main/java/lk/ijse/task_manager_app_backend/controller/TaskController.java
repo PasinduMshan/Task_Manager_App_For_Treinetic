@@ -1,5 +1,6 @@
 package lk.ijse.task_manager_app_backend.controller;
 
+import lk.ijse.task_manager_app_backend.dto.TaskStatus;
 import lk.ijse.task_manager_app_backend.dto.impl.TaskDTO;
 import lk.ijse.task_manager_app_backend.exception.DataPersistException;
 import lk.ijse.task_manager_app_backend.service.TaskService;
@@ -32,5 +33,10 @@ public class TaskController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TaskDTO> getAllTasks() {
         return taskService.getAllTasks();
+    }
+
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public TaskStatus getTaskById(@PathVariable("id") Long id) {
+        return taskService.getTaskById(id);
     }
 }

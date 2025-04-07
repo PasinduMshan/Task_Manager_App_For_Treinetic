@@ -1,6 +1,7 @@
 package lk.ijse.task_manager_app_backend.service.impl;
 
 import lk.ijse.task_manager_app_backend.dao.TaskDAO;
+import lk.ijse.task_manager_app_backend.dto.TaskStatus;
 import lk.ijse.task_manager_app_backend.dto.impl.TaskDTO;
 import lk.ijse.task_manager_app_backend.entity.Task;
 import lk.ijse.task_manager_app_backend.exception.DataPersistException;
@@ -33,4 +34,15 @@ public class TaskServiceImpl implements TaskService {
         List<Task> taskList = taskDAO.findAll();
         return mapping.toTaskDTOList(taskList);
     }
+
+    @Override
+    public TaskStatus getTaskById(Long taskId) {
+        if (taskDAO.existsById(taskId)) {
+            Task taskData = taskDAO.getReferenceById(taskId);
+            return mapping.toTaskDTO(taskData);
+        } else {
+            throw new RuntimeException("Task not found!");
+        }
+    }
+
 }
